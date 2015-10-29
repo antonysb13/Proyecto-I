@@ -1,0 +1,21 @@
+%section#banner
+  %h1= t('.welcome to best price')
+  %h3= t('.your best option for shopping')
+  - if !user_signed_in?
+    %ul.actions
+      %li
+        %a.button.special{:href => new_user_registration_path} Sign Up
+      %li
+        %a.button{:href => new_user_session_path} Login
+    %ul.icons
+      %li
+        = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+          - if devise_mapping.omniauthable?
+            - resource_class.omniauth_providers.each do |provider|
+              %i.fa.fa-facebook &nbsp;&nbsp 
+              %a.btn.btn-block.btn-social.btn-facebook
+                = link_to "Sign in with #{provider.to_s.titleize}",omniauth_authorize_path(resource_name, provider)
+
+      
+        
+

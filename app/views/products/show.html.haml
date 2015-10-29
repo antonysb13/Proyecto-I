@@ -1,0 +1,66 @@
+%section#banner
+  %br
+  %br
+  %br
+  %section#main.container
+    %section.box.special.features
+      %p#notice= notice
+
+      %p
+        %b Name:
+        = @product.name
+      %p
+        %b Price:
+        = @product.price
+      %p
+        %b Description:
+        = @product.description
+      %p
+        %b Quantity:
+        = @product.quantity
+      %p
+        %b Active:
+        = @product.active
+      %p
+        %b User:
+        = @product.user.email
+      %p
+        = image_tag @product.avatar.url(:medium)
+      %p
+        %b likes: 
+        = @product.likes.all.size
+        
+
+        /= button_to "Delete Like", { action: "delete", controller:product_likes_path(@product), id: @product.likes.all.find_by(product_id:@product.id, user_id:current_user.id).id}, method: :delete, data: { confirm: "Are you sure?" }
+
+        /= link_to 'destroy', product_likes_path(@product), method: :delete, data: { confirm: 'Are you sure?' }
+        / = link_to 'destroy_likes', product, method: :delete_like, data: { confirm: 'Are you sure?' }
+        /= button_to "Dislike", {:controller => "likes", :action => 'destroy', :id => @product.likes.all.find_by(product_id:@product.id, user_id:current_user.id).id }, :confirm => "Are you sure you want to dislike?", :method => :delete
+    %section.box.special.features
+      %p
+        %h3 Comments
+        - temp = 0
+        - while temp<@product.comments.all.size
+          
+          %p
+            %b
+              = User.find(@product.comments[temp].user_id).email 
+            %a said:
+            = @product.comments[temp].comment
+            %br 
+            %a comment at
+            = @product.comments[temp].created_at.to_date
+          - temp += 1
+      - if user_signed_in?
+        %p
+          = form_for([@product, @product.comments.build]) do |f|
+            = f.label :"Add comment" 
+            %br
+            = f.text_area :comment
+            = f.hidden_field :user_id, :value => current_user.id
+            = f.submit  
+
+
+
+    %a.button{:href => products_path} Back
+

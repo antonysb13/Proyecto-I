@@ -1,0 +1,105 @@
+%section#banner
+  %section#main.container
+    %p#notice= notice
+    %h1 Listing Products
+    =form_tag products_path, :method => 'get' do
+      = text_field_tag :search, params[:search]
+      = submit_tag "Search"
+    - if user_signed_in?
+      %a.button{:href => new_product_path} New Product
+
+    %section.box.special.features
+      
+      - @products.each_index do |i|      
+        - if !@products[i].nil? && i%2 == 0
+          .features-row              
+            %section
+              %p
+                = image_tag @products[i].avatar.url(:medium)
+              %h3= @products[i].name
+              %ul.icons
+                %li
+                  %h4 Precio del item: 
+                %li
+                  %h4= @products[i].price
+              %ul.icons
+                %li
+                  %h4 Cantidad: 
+                %li
+                  %h4= @products[i].quantity
+              %p= @products[i].description
+              %ul.icons
+                %li
+                  %a.button.specialinside{:href => "products/#{@products[i].id}"} Read More
+                %li
+                  %a.button.specialinside{:href => "#"} Buy
+              %br
+              %h4= @products[i].likes.all.size
+              %br
+              %ul.icons
+                %li
+                  - if user_signed_in?
+                    - if @products[i].likes.all.find_by(product_id:@products[i].id, user_id:current_user.id).nil?
+                      = form_for([@products[i], @products[i].likes.build]) do |f|
+                        %br
+                        = f.hidden_field :product_id, :value => @products[i].id
+                        = f.hidden_field :user_id, :value => current_user.id
+                        %a
+                          %ul
+                            %li
+                              %i.icon.fa-thumbs-o-up
+                              = f.submit "Like"
+                    - else
+                      %a
+                        %ul
+                          %li
+                            %i.icon.fa-thumbs-up
+            - if !@products[i+1].nil?
+              - product = @products[i+1]
+              %section
+                %p
+                  = image_tag @products[i+1].avatar.url(:medium)
+                %h3= @products[i+1].name
+                %ul.icons
+                  %li
+                    %h4 Precio del item: 
+                  %li
+                    %h4= @products[i+1].price
+                %ul.icons
+                  %li
+                    %h4 Cantidad: 
+                  %li
+                    %h4= @products[i+1].quantity
+                %p= @products[i+1].description
+                %ul.icons
+                  %li
+                    %a.button.specialinside{:href => "products/#{@products[i].id+1}"} Read More
+                  %li
+                    %a.button.specialinside{:href => "#"} Buy
+                %br
+                %h4= @products[i+1].likes.all.size
+                %br
+                %ul.icons
+                  %li
+                    - if user_signed_in?
+                      - if @products[i+1].likes.all.find_by(product_id:@products[i+1].id, user_id:current_user.id).nil?
+                        = form_for([@products[i+1], @products[i+1].likes.build]) do |f|
+                          %br
+                          = f.hidden_field :product_id, :value => @products[i+1].id
+                          = f.hidden_field :user_id, :value => current_user.id
+                          %a
+                            %ul
+                              %li
+                                %i.icon.fa-thumbs-o-up
+                                = f.submit "Like"
+                      - else
+                        %a
+                          %ul
+                            %li
+                              %i.icon.fa-thumbs-up
+        
+
+        / %td= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }
+    
+
+

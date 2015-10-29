@@ -1,0 +1,20 @@
+%section#banner
+  %br
+  %br
+  %br
+  %section#main.container
+    %section.box.special.features
+      %p#notice= notice
+
+      %p
+        %b Name:
+        = @product.name
+      %p
+        %b Email:
+        = @product.price
+      %p
+        %b Telephone:
+        = @product.description
+        
+    %a.button{:href => products_path} Back
+

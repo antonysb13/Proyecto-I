@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>BestPrice</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  </head>
+  <body class="landing">
+    <div id="page-wrapper">
+      <!-- Header
+      -->
+      <header class="alt" id="header">
+        <h1>
+          <i class="icon fa-shopping-cart"></i>
+          <a href="/"> Best Price</a>
+        </h1>
+        <nav id="nav">
+          <ul>
+            <li>
+              <% if !user_signed_in? %>
+              <a><%= link_to 'View Products as Visitor', products_path %></a>
+              <% else %>
+              <a><%= link_to 'View Products', products_path %></a>
+              <% end %>
+            </li>
+      
+
+            <% if user_signed_in? %>
+            	<li>
+          			Logged in as 
+          			<% if current_user.name.nil? %>
+            			<strong><%= current_user.email %></strong>
+          			<% else %>
+            			<strong><%= current_user.name %></strong>
+          			<% end %>
+            	</li>
+	            <li><a class="button" href="<%= edit_user_registration_path %>" > Edit profile</a></li>
+	            <li><a class="button" href="<%= destroy_user_session_path %>" data-confirm="Are you sure?" data-method="delete">Log Out</a></li>
+            <% else %>
+
+	        <% end %>
+          </ul>
+        </nav>
+      </header>
+      <!-- Banner
+      -->
+      <%= yield %>
+      <!-- Scripts
+      -->
+      <footer id="footer">
+      	<ul class="copyright">
+      		<li>&copy; Best Price. All right reserved.</li>
+      	</ul>
+      </footer>
+    </div>
+    <script src="jquery.min.js"></script>
+    <script src="jquery.dropotron.min.js"></script>
+    <script src="jquery.scrollgress.min.js"></script>
+    <script src="skel.min.js"></script>
+    <script src="util.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
+  

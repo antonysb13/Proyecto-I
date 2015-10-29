@@ -1,0 +1,35 @@
+%section#banner
+  %br
+  %br
+  %br
+  %section#main.container
+    = form_for @product, url: products_path, html: {multipart: true} do |f|
+      %section.box.special.features
+        - if @product.errors.any?
+          #error_explanation
+            %h2= "#{pluralize(@product.errors.count, "error")} prohibited this product from being saved:"
+            %ul
+              - @product.errors.full_messages.each do |msg|
+                %li= msg
+        .field
+          = f.label :name
+          = f.text_field :name
+        .field
+          = f.label :price
+          = f.text_field :price
+        .field
+          = f.label "Image"
+          = f.file_field :avatar
+        .field
+          = f.label :description
+          = f.text_area :description
+        .field
+          = f.label :quantity
+          = f.number_field :quantity
+        .field
+          = f.check_box :active, :value => true
+        = f.hidden_field :user_id, :value => current_user.id
+        %br
+      .actions
+        = f.submit 'Save'
+      %a.button{:href => products_path} Back
